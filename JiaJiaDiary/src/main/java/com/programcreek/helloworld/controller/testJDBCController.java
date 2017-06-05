@@ -1,12 +1,18 @@
 package com.programcreek.helloworld.controller;
  
+import javax.validation.Valid;
+
+import org.springframework.samples.mvc.messageconverters.JavaBean;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
  
 @Controller
-public class HelloWorldController2 {
+public class testJDBCController {
 	String message = "Welcome to Spring MVC!";
  
 	@RequestMapping("/hello2")
@@ -19,4 +25,9 @@ public class HelloWorldController2 {
 		mv.addObject("name", name);
 		return mv;
 	}
+	
+	@RequestMapping(value="/json", method=RequestMethod.POST)
+    public @ResponseBody String readJson(@Valid @RequestBody JavaBean bean) {
+        return "Read from JSON: " + bean;
+    }
 }
