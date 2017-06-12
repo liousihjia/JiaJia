@@ -31,4 +31,54 @@
 	
 	<!-- Imports user-defined @Controller beans that process client requests -->
 	<beans:import resource="controllers.xml" />
+	
+	<!-- JDBCTemplate -->
+	<beans:bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="locations">
+			<beans:list>
+				<beans:value>classpath:DB_jdbc.properties</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+	<beans:bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource">
+	  <beans:property name="driverClassName" value="${dataSource.driverClass}" />
+	  <beans:property name="url" value="${dataSource.jdbcUrl}" />
+	  <beans:property name="username" value="${dataSource.user}" />
+	  <beans:property name="password" value="${dataSource.password}" />
+	  <beans:property name="testWhileIdle" value="true" />
+	  <beans:property name="testOnBorrow" value="true" />
+	  <beans:property name="testOnReturn" value="false" />
+	  <beans:property name="validationQuery" value="SELECT 1" />
+	  <beans:property name="validationInterval" value="30000" />
+	  <beans:property name="timeBetweenEvictionRunsMillis" value="30000" />
+	  <beans:property name="maxActive" value="100" />
+	  <beans:property name="minIdle" value="2" />
+	  <beans:property name="maxWait" value="10000" />
+	  <beans:property name="initialSize" value="4" />
+	  <beans:property name="removeAbandonedTimeout" value="60" />
+	  <beans:property name="removeAbandoned" value="true" />
+	  <beans:property name="logAbandoned" value="true" />
+	  <beans:property name="minEvictableIdleTimeMillis" value="30000" />
+	  <beans:property name="jmxEnabled" value="true" />
+	  <beans:property name="defaultReadOnly" value="false" />
+	</beans:bean>
+
+	<beans:bean id="jdbcTemplateTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<beans:property name="dataSource">
+			<beans:ref bean="dataSource" />
+		</beans:property>
+	</beans:bean>
+	<beans:bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<beans:property name="dataSource">
+			<beans:ref bean="dataSource" />
+		</beans:property>
+	</beans:bean>
+	
+	<beans:bean id="testDAO" class="com.programcreek.helloworld.controller.testDAOImlp">
+		<beans:property name="jdbcTemplate">
+			<beans:ref bean="jdbcTemplate"/>
+		</beans:property>
+	</beans:bean>
 </beans:beans>
