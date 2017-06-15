@@ -21,7 +21,6 @@ public class testDAOImlp implements testDAO{
 	}
 
  
-    @Override
     public void saveOrUpdate(TestItem i) {
         if (i.getTestId() != null && !i.getTestId().equals("")) {
             // update
@@ -36,18 +35,15 @@ public class testDAOImlp implements testDAO{
         }
     }
  
-    @Override
     public void delete(String i) {
     	String sql = "DELETE FROM testTable WHERE test_id=?";
         jdbcTemplate.update(sql, i);
     }
  
-    @Override
     public List<TestItem> list() {    
     	String sql = "SELECT * FROM testTable";
     List<TestItem> listContact = jdbcTemplate.query(sql, new RowMapper<TestItem>() {
  
-        @Override
         public TestItem mapRow(ResultSet rs, int rowNum) throws SQLException {
         	TestItem TestItem = new TestItem();
  
@@ -62,11 +58,9 @@ public class testDAOImlp implements testDAO{
     return listContact;
 }
  
-    @Override
     public TestItem get(String i) {    String sql = "SELECT * FROM testTable WHERE test_id='" + i +"'";
     return jdbcTemplate.query(sql, new ResultSetExtractor<TestItem>() {
  
-        @Override
         public TestItem extractData(ResultSet rs) throws SQLException,
                 DataAccessException {
             if (rs.next()) {
