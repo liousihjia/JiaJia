@@ -12,5 +12,9 @@
 			${message} ${name}
 		</h2>
 	</center>
+	<script>
+	var test = ${message};
+		alert(test);
+	</script>
 </body>
 </html>
